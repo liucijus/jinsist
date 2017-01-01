@@ -26,7 +26,7 @@ public class Mock<MockType> {
     }
 
     <ReturnType> MockType setupInstanceWithResult(ReturnType result) {
-        Delegator expectationRecorder = ((setupInstance, method, arguments) -> {
+        Delegator<MockType> expectationRecorder = ((setupInstance, method, arguments) -> {
             verifyReturnTypeNeedsToBestubbed(result, method);
             expectations.recordStub(mockClass, instance, method, arguments, result);
             return result;

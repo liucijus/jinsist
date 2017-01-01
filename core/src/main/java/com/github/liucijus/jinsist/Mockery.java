@@ -17,8 +17,8 @@ public class Mockery {
     }
 
     public <MockType> MockType mock(Class<MockType> classToMock) {
-        Delegator executor = (instance, method, arguments) -> {
-            return expectations.execute(classToMock, (MockType) instance, method, arguments);
+        Delegator<MockType> executor = (instance, method, arguments) -> {
+            return expectations.execute(classToMock, instance, method, arguments);
         };
 
         MockType instance = new Proxy<>(classToMock).instance(executor);

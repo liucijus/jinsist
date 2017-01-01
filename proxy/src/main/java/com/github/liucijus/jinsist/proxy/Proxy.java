@@ -24,7 +24,7 @@ public class Proxy<T> {
         this.type = type;
     }
 
-    public T instance(Delegator delegator) {
+    public T instance(Delegator<T> delegator) {
         try {
             InstanceDelegator instanceDelegator = new InstanceDelegator(delegator);
             T instance = makeProxyFor(type, instanceDelegator).newInstance();
