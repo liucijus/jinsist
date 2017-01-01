@@ -1,29 +1,37 @@
 package com.github.liucijus.jinsist;
 
+import com.github.liucijus.jinsist.mock.Expectations;
 import com.github.liucijus.jinsist.mock.Mock;
 import com.github.liucijus.jinsist.proxy.Delegator;
 import com.github.liucijus.jinsist.proxy.Proxy;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Mockery {
-    private boolean hasExpectation = false;
+    private Map<Class<?>, Mock<?>> mocks = new HashMap<>();
+    private Expectations expectations = new Expectations();
 
     public void verify() {
-        if (hasExpectation) {
+        if (!expectations.areExecuted()) {
             throw new UnmetExpectations();
         }
     }
 
-    public <M> M mock(Class<M> classToMock) {
-        Delegator expectationWatcher = (instance, method, arguments) -> {
-            this.hasExpectation = false;
-            return null;
-        };
+    public <MockType> MockType mock(Class<MockType> classToMock) {
+        Delegator executor = (instance, method, arguments) -> expectations.execute(instance, method, arguments);
 
-        return new Proxy<>(classToMock).instance(expectationWatcher);
+        MockType instance = new Proxy<>(classToMock).instance(executor);
+        Mock<MockType> mock = new Mock<>(classToMock, expectations);
+        mocks.put(instance.getClass(), mock);
+        return instance;
     }
 
-    public <M> Mock<M> expect(M mock) {
-        hasExpectation = true;
-        return new Mock<>();
+    public <M> Mock<M> expect(M mockInstance) {
+        return findMock(mockInstance);
+    }
+
+    private <M> Mock<M> findMock(M mockInstance) {
+        return (Mock<M>) mocks.get(mockInstance.getClass());
     }
 }
