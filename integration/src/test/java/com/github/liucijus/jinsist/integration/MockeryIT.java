@@ -39,7 +39,7 @@ public class MockeryIT {
         Collaborator collaborator = mockery.mock(Collaborator.class);
         mockery.expect(collaborator).stub(mock -> mock.aMethodWithOneParam("some input")).returns("some output");
 
-        collaborator.aMethodWithOneParam("input");
+        collaborator.aMethodWithOneParam("some input");
 
         mockery.verify();
     }

@@ -6,10 +6,12 @@ import com.github.liucijus.jinsist.proxy.Proxy;
 public class Mock<MockType> {
 
     private Class<MockType> mockClass;
+    private Object instance;
     private Expectations expectations;
 
-    public Mock(Class<MockType> mockClass, Expectations expectations) {
+    public Mock(Class<MockType> mockClass, Object instance, Expectations expectations) {
         this.mockClass = mockClass;
+        this.instance = instance;
         this.expectations = expectations;
     }
 
@@ -18,8 +20,8 @@ public class Mock<MockType> {
     }
 
     public <ReturnType> MockType setupInstanceWithResult(ReturnType result) {
-        Delegator expectationRecorder = ((instance, method, arguments) -> {
-            expectations.recordStub(instance, method, arguments, result);
+        Delegator expectationRecorder = ((setupInstance, method, arguments) -> {
+            expectations.recordStub(mockClass, (MockType) instance, method, arguments, result);
             return result;
         });
 

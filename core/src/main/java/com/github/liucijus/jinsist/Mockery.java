@@ -19,10 +19,10 @@ public class Mockery {
     }
 
     public <MockType> MockType mock(Class<MockType> classToMock) {
-        Delegator executor = (instance, method, arguments) -> expectations.execute(instance, method, arguments);
+        Delegator executor = (instance, method, arguments) -> expectations.execute(classToMock, (MockType) instance, method, arguments);
 
         MockType instance = new Proxy<>(classToMock).instance(executor);
-        Mock<MockType> mock = new Mock<>(classToMock, expectations);
+        Mock<MockType> mock = new Mock<>(classToMock, instance, expectations);
         mocks.put(instance.getClass(), mock);
         return instance;
     }
