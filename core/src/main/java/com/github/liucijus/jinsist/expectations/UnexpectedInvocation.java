@@ -1,4 +1,4 @@
-package com.github.liucijus.jinsist.mock;
+package com.github.liucijus.jinsist.expectations;
 
 public class UnexpectedInvocation extends RuntimeException {
     UnexpectedInvocation(Expectation expectation, Invocation invocation) {

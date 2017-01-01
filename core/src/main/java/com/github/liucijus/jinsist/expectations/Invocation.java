@@ -1,4 +1,4 @@
-package com.github.liucijus.jinsist.mock;
+package com.github.liucijus.jinsist.expectations;
 
 import com.github.liucijus.jinsist.report.FormattedMethod;
 

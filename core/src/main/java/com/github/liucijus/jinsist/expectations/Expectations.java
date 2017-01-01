@@ -1,4 +1,4 @@
-package com.github.liucijus.jinsist.mock;
+package com.github.liucijus.jinsist.expectations;
 
 import com.github.liucijus.jinsist.UnmetExpectations;
 
@@ -10,7 +10,7 @@ public class Expectations {
     private List<Expectation> expectations = new ArrayList<>();
     private boolean wasUnexpectedInvocation = false;
 
-    <ReturnType, MockType> void recordStub(
+    public <ReturnType, MockType> void recordStub(
             Class<MockType> classToMock,
             MockType instance,
             Method method,

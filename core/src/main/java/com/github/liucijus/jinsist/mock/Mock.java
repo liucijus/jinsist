@@ -1,5 +1,6 @@
 package com.github.liucijus.jinsist.mock;
 
+import com.github.liucijus.jinsist.expectations.Expectations;
 import com.github.liucijus.jinsist.proxy.Delegator;
 import com.github.liucijus.jinsist.proxy.Proxy;
 

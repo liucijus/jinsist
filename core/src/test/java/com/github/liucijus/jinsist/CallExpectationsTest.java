@@ -1,7 +1,7 @@
 package com.github.liucijus.jinsist;
 
 import com.github.liucijus.jinsist.mock.UnableToStubPrimitiveReturnType;
-import com.github.liucijus.jinsist.mock.UnexpectedInvocation;
+import com.github.liucijus.jinsist.expectations.UnexpectedInvocation;
 import com.github.liucijus.jinsist.testtypes.Collaborator;
 import org.junit.Test;
 
