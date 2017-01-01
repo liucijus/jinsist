@@ -4,7 +4,7 @@ public class Returns<ReturnType, MockType> {
     private StubCall<ReturnType, MockType> call;
     private Mock<MockType> mock;
 
-    public Returns(StubCall<ReturnType, MockType> call, Mock<MockType> mock) {
+    Returns(StubCall<ReturnType, MockType> call, Mock<MockType> mock) {
         this.call = call;
         this.mock = mock;
     }
