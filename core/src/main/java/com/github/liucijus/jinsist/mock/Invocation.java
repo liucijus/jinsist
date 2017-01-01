@@ -1,8 +1,9 @@
 package com.github.liucijus.jinsist.mock;
 
+import com.github.liucijus.jinsist.report.FormattedMethod;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class Invocation<MockType> {
     private final Class<MockType> mockClass;
@@ -22,10 +23,8 @@ public class Invocation<MockType> {
         return formatInvocation();
     }
 
-    // todo extract and test
     private String formatInvocation() {
-        String params = Arrays.stream(arguments).map(Object::toString).collect(Collectors.joining(", "));
-        return mockClass.getSimpleName() + "." + method.getName() + "(" + params + ")";
+        return new FormattedMethod(mockClass, method, arguments).toString();
     }
 
     @Override
