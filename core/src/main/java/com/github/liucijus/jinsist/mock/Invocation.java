@@ -10,7 +10,7 @@ public class Invocation<MockType> {
     private final Method method;
     private final Object[] arguments;
 
-    public Invocation(Class<MockType> mockClass, MockType instance, Method method, Object[] arguments) {
+    Invocation(Class<MockType> mockClass, MockType instance, Method method, Object[] arguments) {
         this.mockClass = mockClass;
         this.instance = instance.getClass();
         this.method = method;
@@ -35,9 +35,7 @@ public class Invocation<MockType> {
 
         Invocation that = (Invocation) o;
 
-        if (!instance.equals(that.instance)) return false;
-        if (!method.equals(that.method)) return false;
-        return Arrays.equals(arguments, that.arguments);
+        return instance.equals(that.instance) && method.equals(that.method) && Arrays.equals(arguments, that.arguments);
     }
 
     @Override

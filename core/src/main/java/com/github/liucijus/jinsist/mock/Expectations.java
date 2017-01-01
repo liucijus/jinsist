@@ -17,8 +17,8 @@ public class Expectations {
             Object[] arguments,
             ReturnType result
     ) {
-        Invocation invocation = new Invocation<>(classToMock, instance, method, arguments);
-        expectations.add(new Expectation(invocation, result));
+        Invocation<MockType> invocation = new Invocation<>(classToMock, instance, method, arguments);
+        expectations.add(new Expectation<>(invocation, result));
     }
 
     public <MockType> Object execute(
@@ -28,11 +28,18 @@ public class Expectations {
             Object[] arguments
     ) {
         Expectation expectation = expectations.remove(0);
-        Invocation invocation = new Invocation<>(classToMock, instance, method, arguments);
+        Invocation<MockType> invocation = new Invocation<>(classToMock, instance, method, arguments);
 
-        if (expectation.isFor(invocation)) {
-            return expectation.getResult();
-        } else {
+        verifyExpectationMatchesInvocation(expectation, invocation);
+
+        return expectation.getResult();
+    }
+
+    private <MockType> void verifyExpectationMatchesInvocation(
+            Expectation expectation,
+            Invocation<MockType> invocation
+    ) {
+        if (!expectation.isFor(invocation)) {
             wasUnexpectedInvocation = true;
             throw new UnexpectedInvocation(expectation, invocation);
         }

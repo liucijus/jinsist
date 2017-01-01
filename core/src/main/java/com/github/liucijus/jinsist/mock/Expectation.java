@@ -1,23 +1,23 @@
 package com.github.liucijus.jinsist.mock;
 
-public class Expectation {
-    private Invocation invocation;
-    private final Object result;
+public class Expectation<MockType, ReturnType> {
+    private Invocation<MockType> invocation;
+    private final ReturnType result;
 
-    public <ReturnType> Expectation(Invocation invocation, ReturnType result) {
+    Expectation(Invocation<MockType> invocation, ReturnType result) {
         this.invocation = invocation;
         this.result = result;
     }
 
-    public Object getResult() {
+    Object getResult() {
         return result;
     }
 
-    public boolean isFor(Invocation invocation) {
+    boolean isFor(Invocation invocation) {
         return this.invocation.equals(invocation);
     }
 
-    public Invocation getInvocation() {
+    Invocation getInvocation() {
         return invocation;
     }
 
@@ -28,8 +28,8 @@ public class Expectation {
 
         Expectation that = (Expectation) o;
 
-        if (!invocation.equals(that.invocation)) return false;
-        return result != null ? result.equals(that.result) : that.result == null;
+        return invocation.equals(that.invocation)
+                && (result != null ? result.equals(that.result) : that.result == null);
     }
 
     @Override
