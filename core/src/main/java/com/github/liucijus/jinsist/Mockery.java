@@ -13,13 +13,13 @@ public class Mockery {
     private Expectations expectations = new Expectations();
 
     public void verify() {
-        if (!expectations.areExecuted()) {
-            throw new UnmetExpectations();
-        }
+        expectations.verify();
     }
 
     public <MockType> MockType mock(Class<MockType> classToMock) {
-        Delegator executor = (instance, method, arguments) -> expectations.execute(classToMock, (MockType) instance, method, arguments);
+        Delegator executor = (instance, method, arguments) -> {
+            return expectations.execute(classToMock, (MockType) instance, method, arguments);
+        };
 
         MockType instance = new Proxy<>(classToMock).instance(executor);
         Mock<MockType> mock = new Mock<>(classToMock, instance, expectations);

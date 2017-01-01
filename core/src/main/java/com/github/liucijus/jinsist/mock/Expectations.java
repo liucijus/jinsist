@@ -1,13 +1,16 @@
 package com.github.liucijus.jinsist.mock;
 
+import com.github.liucijus.jinsist.UnmetExpectations;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Expectations {
     private List<Expectation> expectations = new ArrayList<>();
+    private boolean wasUnexpectedInvocation = false;
 
-    public <ReturnType, MockType> void recordStub(
+    <ReturnType, MockType> void recordStub(
             Class<MockType> classToMock,
             MockType instance,
             Method method,
@@ -19,20 +22,25 @@ public class Expectations {
     }
 
     public <MockType> Object execute(
-            Class<MockType> classToMock, MockType instance, Method method, Object[] arguments
+            Class<MockType> classToMock,
+            MockType instance,
+            Method method,
+            Object[] arguments
     ) {
         Expectation expectation = expectations.remove(0);
         Invocation invocation = new Invocation<>(classToMock, instance, method, arguments);
 
         if (expectation.isFor(invocation)) {
-            System.out.println(expectation);
-            System.out.println(invocation);
             return expectation.getResult();
-        } else
+        } else {
+            wasUnexpectedInvocation = true;
             throw new UnexpectedInvocation(expectation, invocation);
+        }
     }
 
-    public boolean areExecuted() {
-        return expectations.isEmpty();
+    public void verify() {
+        if (!expectations.isEmpty() || wasUnexpectedInvocation) {
+            throw new UnmetExpectations();
+        }
     }
 }
