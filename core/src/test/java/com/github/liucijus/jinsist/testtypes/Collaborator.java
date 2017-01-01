@@ -8,4 +8,11 @@ public class Collaborator {
     public String secondMethod(String param, String param2) {
         throw new UnsupportedOperationException("secondMethod was called from implementation.");
     }
+
+    public void voidMethod() {
+    }
+
+    public int primitiveMethod() {
+        return 0;
+    }
 }

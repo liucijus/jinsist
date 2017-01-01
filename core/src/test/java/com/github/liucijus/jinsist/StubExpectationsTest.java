@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static com.googlecode.catchexception.CatchException.verifyException;
 
-public class ExpectationsTest {
+public class StubExpectationsTest {
     private Mockery mockery = new Mockery();
     private Collaborator collaborator = mockery.mock(Collaborator.class);
 
