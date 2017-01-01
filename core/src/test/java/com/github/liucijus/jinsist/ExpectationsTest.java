@@ -57,4 +57,18 @@ public class ExpectationsTest {
 
         verifyException(mockery, UnmetExpectations.class).verify();
     }
+
+    @Test
+    public void stubsMultipleMocks() {
+        Collaborator collaborator1 = mockery.mock(Collaborator.class);
+        Collaborator collaborator2 = mockery.mock(Collaborator.class);
+
+        mockery.expect(collaborator1).stub(mock -> mock.firstMethod("input1")).returns("output1");
+        mockery.expect(collaborator2).stub(mock -> mock.firstMethod("input2")).returns("output2");
+
+        Assert.assertEquals("output1", collaborator1.firstMethod("input1"));
+        Assert.assertEquals("output2", collaborator2.firstMethod("input2"));
+
+        mockery.verify();
+    }
 }
