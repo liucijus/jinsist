@@ -1,8 +1,11 @@
-package com.github.liucijus.jinsist;
+package com.github.liucijus.jinsist.integration;
 
+import com.github.liucijus.jinsist.Mockery;
+import com.github.liucijus.jinsist.UnmetExpectations;
+import com.github.liucijus.jinsist.integration.testtypes.Collaborator;
 import org.junit.Test;
 
-public class MockeryTest {
+public class MockeryIT {
     @Test
     public void verifiesEmptyMockery() {
         Mockery mockery = new Mockery();

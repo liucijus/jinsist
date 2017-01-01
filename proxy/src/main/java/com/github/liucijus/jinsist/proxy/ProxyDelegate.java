@@ -6,24 +6,17 @@ import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.concurrent.Callable;
 
 public class ProxyDelegate {
-    private Callable callable;
+    private InstanceDelegator delegator;
 
-    public ProxyDelegate(Callable callable) {
-        this.callable = callable;
+    ProxyDelegate(InstanceDelegator delegator) {
+        this.delegator = delegator;
     }
 
     @RuntimeType
     public Object intercept(@AllArguments Object[] allArguments, @Origin Method method)
             throws InvocationTargetException, IllegalAccessException {
-        try {
-            callable.call();
-        } catch (Exception e) {
-            // todo use Mockery exception
-            throw new RuntimeException("failed to call callback");
-        }
-        return null;
+        return delegator.handle(method, allArguments);
     }
 }

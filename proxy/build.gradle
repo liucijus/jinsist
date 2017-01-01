@@ -1,4 +1,4 @@
 dependencies {
-    compile project(':proxy')
+    compile 'net.bytebuddy:byte-buddy:1.5.10'
     testCompile "junit:junit:4.11"
 }
