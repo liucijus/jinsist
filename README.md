@@ -29,3 +29,4 @@ Currently only **ordered expectation verification** is supported. It means mocke
 - Refactor tests to use mocks
 - Support parallel execution
 - Add more types of verification: unordered, mixed
+- Add possibility to match argument
