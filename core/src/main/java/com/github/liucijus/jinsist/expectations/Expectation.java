@@ -1,10 +1,10 @@
 package com.github.liucijus.jinsist.expectations;
 
 public class Expectation<MockType, ReturnType> {
-    private Invocation<MockType> invocation;
+    private ExpectedInvocation<MockType> invocation;
     private final ReturnType result;
 
-    Expectation(Invocation<MockType> invocation, ReturnType result) {
+    Expectation(ExpectedInvocation<MockType> invocation, ReturnType result) {
         this.invocation = invocation;
         this.result = result;
     }
@@ -14,10 +14,12 @@ public class Expectation<MockType, ReturnType> {
     }
 
     boolean isFor(Invocation invocation) {
-        return this.invocation.equals(invocation);
+        return this.invocation.getInstance().equals(invocation.getInstance())
+                && this.invocation.getMethod().equals(invocation.getMethod())
+                && this.invocation.getArguments().matches(invocation.getArguments());
     }
 
-    Invocation getInvocation() {
+    ExpectedInvocation getInvocation() {
         return invocation;
     }
 

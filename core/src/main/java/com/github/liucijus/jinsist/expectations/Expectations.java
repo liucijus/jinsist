@@ -1,6 +1,7 @@
 package com.github.liucijus.jinsist.expectations;
 
 import com.github.liucijus.jinsist.UnmetExpectations;
+import com.github.liucijus.jinsist.matchers.Arguments;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -14,10 +15,10 @@ public class Expectations {
             Class<MockType> classToMock,
             MockType instance,
             Method method,
-            Object[] arguments,
+            Arguments arguments,
             ReturnType result
     ) {
-        Invocation<MockType> invocation = new Invocation<>(classToMock, instance, method, arguments);
+        ExpectedInvocation<MockType> invocation = new ExpectedInvocation<>(classToMock, instance, method, arguments);
         expectations.add(new Expectation<>(invocation, result));
     }
 

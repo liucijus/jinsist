@@ -1,17 +1,17 @@
 package com.github.liucijus.jinsist.expectations;
 
+import com.github.liucijus.jinsist.matchers.Arguments;
 import com.github.liucijus.jinsist.report.FormattedMethod;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
-public class Invocation<MockType> {
+public class ExpectedInvocation<MockType> {
     private final Class<MockType> mockClass;
     private final Class<?> instance;
     private final Method method;
-    private final Object[] arguments;
+    private final Arguments arguments;
 
-    Invocation(Class<MockType> mockClass, MockType instance, Method method, Object[] arguments) {
+    ExpectedInvocation(Class<MockType> mockClass, MockType instance, Method method, Arguments arguments) {
         this.mockClass = mockClass;
         this.instance = instance.getClass();
         this.method = method;
@@ -24,7 +24,7 @@ public class Invocation<MockType> {
     }
 
     private String formatInvocation() {
-        return new FormattedMethod(mockClass, method, Arrays.asList(arguments)).toString();
+        return new FormattedMethod(mockClass, method, arguments.getArgumentMatchers()).toString();
     }
 
     Class<?> getInstance() {
@@ -35,7 +35,7 @@ public class Invocation<MockType> {
         return method;
     }
 
-    Object[] getArguments() {
+    Arguments getArguments() {
         return arguments;
     }
 
@@ -44,16 +44,20 @@ public class Invocation<MockType> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Invocation that = (Invocation) o;
+        ExpectedInvocation<?> that = (ExpectedInvocation<?>) o;
 
-        return instance.equals(that.instance) && method.equals(that.method) && Arrays.equals(arguments, that.arguments);
+        if (!mockClass.equals(that.mockClass)) return false;
+        if (!instance.equals(that.instance)) return false;
+        if (!method.equals(that.method)) return false;
+        return arguments.equals(that.arguments);
     }
 
     @Override
     public int hashCode() {
-        int result = instance.hashCode();
+        int result = mockClass.hashCode();
+        result = 31 * result + instance.hashCode();
         result = 31 * result + method.hashCode();
-        result = 31 * result + Arrays.hashCode(arguments);
+        result = 31 * result + arguments.hashCode();
         return result;
     }
 }

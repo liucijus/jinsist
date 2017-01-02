@@ -76,7 +76,7 @@ public class StubExpectationsTest {
     @Test
     @Ignore("Field stubbing not supported")
     public void allowsPublicPropertyStubbing() {
-       mockery.expect(collaborator).stub(mock -> mock.publicProperty).returns("stubbed property");
+        mockery.expect(collaborator).stub(mock -> mock.publicProperty).returns("stubbed property");
 
         Assert.assertEquals("stubbed property", collaborator.publicProperty);
 

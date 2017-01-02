@@ -1,10 +1,15 @@
 package com.github.liucijus.jinsist.mock;
 
 import com.github.liucijus.jinsist.expectations.Expectations;
+import com.github.liucijus.jinsist.matchers.Arguments;
+import com.github.liucijus.jinsist.matchers.EqualsMatcher;
 import com.github.liucijus.jinsist.proxy.Delegator;
 import com.github.liucijus.jinsist.proxy.Proxy;
 
 import java.lang.reflect.Method;
+
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 public class Mock<MockType> {
 
@@ -27,8 +32,13 @@ public class Mock<MockType> {
     }
 
     <ReturnType> MockType setupInstanceWithResult(ReturnType result) {
-        Delegator<MockType> expectationRecorder = ((setupInstance, method, arguments) -> {
-            verifyReturnTypeNeedsToBestubbed(result, method);
+        Delegator<MockType> expectationRecorder = ((setupInstance, method, args) -> {
+            verifyReturnTypeNeedsToBeStubbed(result, method);
+
+            Arguments arguments = new Arguments(
+                    stream(args).map(EqualsMatcher::new).collect(toList())
+            );
+
             expectations.recordStub(mockClass, instance, method, arguments, result);
             return result;
         });
@@ -36,7 +46,7 @@ public class Mock<MockType> {
         return new Proxy<>(mockClass).instance(expectationRecorder);
     }
 
-    private <ReturnType> void verifyReturnTypeNeedsToBestubbed(ReturnType result, Method method) {
+    private <ReturnType> void verifyReturnTypeNeedsToBeStubbed(ReturnType result, Method method) {
         Class<?> returnType = method.getReturnType();
         if (!returnType.equals(Void.TYPE) && returnType.isPrimitive() && result == null) {
             throw new UnableToStubPrimitiveReturnType();
