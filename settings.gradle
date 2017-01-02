@@ -1,5 +1,5 @@
 include 'matchers'
-include 'core'
+include 'mockery'
 include 'proxy'
 include 'integration'
 rootProject.name = 'jinsist'
