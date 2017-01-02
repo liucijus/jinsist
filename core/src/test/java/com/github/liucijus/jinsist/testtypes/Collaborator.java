@@ -1,6 +1,8 @@
 package com.github.liucijus.jinsist.testtypes;
 
 public class Collaborator {
+    public String publicProperty = "property value";
+
     public String firstMethod(String param) {
         throw new UnsupportedOperationException("firstMethod was called from implementation.");
     }

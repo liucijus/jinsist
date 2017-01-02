@@ -3,6 +3,7 @@ package com.github.liucijus.jinsist;
 import com.github.liucijus.jinsist.expectations.UnexpectedInvocation;
 import com.github.liucijus.jinsist.testtypes.Collaborator;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.googlecode.catchexception.CatchException.verifyException;
@@ -68,6 +69,16 @@ public class StubExpectationsTest {
 
         Assert.assertEquals("output1", collaborator1.firstMethod("input1"));
         Assert.assertEquals("output2", collaborator2.firstMethod("input2"));
+
+        mockery.verify();
+    }
+
+    @Test
+    @Ignore("Field stubbing not supported")
+    public void allowsPublicPropertyStubbing() {
+       mockery.expect(collaborator).stub(mock -> mock.publicProperty).returns("stubbed property");
+
+        Assert.assertEquals("stubbed property", collaborator.publicProperty);
 
         mockery.verify();
     }
