@@ -1,6 +1,8 @@
 package com.github.liucijus.jinsist;
 
+import com.github.liucijus.jinsist.expectations.Expectations;
 import com.github.liucijus.jinsist.expectations.OrderedExpectations;
+import com.github.liucijus.jinsist.expectations.ReportExpectations;
 import com.github.liucijus.jinsist.mock.Mock;
 
 import java.util.HashMap;
@@ -8,7 +10,7 @@ import java.util.Map;
 
 public class Mockery {
     private Map<Class<?>, Mock<?>> mocks = new HashMap<>();
-    private OrderedExpectations expectations = new OrderedExpectations();
+    private Expectations expectations = new ReportExpectations(new OrderedExpectations());
 
     public void verify() {
         expectations.verify();

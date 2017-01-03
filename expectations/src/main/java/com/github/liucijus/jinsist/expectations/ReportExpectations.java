@@ -15,7 +15,7 @@ public class ReportExpectations implements Expectations {
     private List<ReportEvent> expected = new ArrayList<>();
     private ReportEvent unexpectedEvent = new NothingEvent();
 
-    ReportExpectations(Expectations expectations) {
+    public ReportExpectations(Expectations expectations) {
         this.expectations = expectations;
     }
 

@@ -1,6 +1,6 @@
 package com.github.liucijus.jinsist.mock;
 
-import com.github.liucijus.jinsist.expectations.OrderedExpectations;
+import com.github.liucijus.jinsist.expectations.Expectations;
 import com.github.liucijus.jinsist.matchers.Arguments;
 import com.github.liucijus.jinsist.matchers.EqualsMatcher;
 import com.github.liucijus.jinsist.proxy.Delegator;
@@ -20,9 +20,9 @@ public class Mock<MockType> {
     }
 
     private MockType instance;
-    private OrderedExpectations expectations;
+    private Expectations expectations;
 
-    public Mock(Class<MockType> mockClass, OrderedExpectations expectations) {
+    public Mock(Class<MockType> mockClass, Expectations expectations) {
         Delegator<MockType> executor = (instance, method, arguments) -> {
             return expectations.execute(mockClass, instance, method, arguments);
         };
