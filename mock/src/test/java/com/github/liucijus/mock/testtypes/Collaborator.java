@@ -1,4 +1,4 @@
-package com.github.liucijus.jinsist.testtypes;
+package com.github.liucijus.mock.testtypes;
 
 public class Collaborator {
     public String publicProperty = "property value";

@@ -1,24 +1,17 @@
-package com.github.liucijus.jinsist;
+package com.github.liucijus.jinsist.integration;
 
+import com.github.liucijus.jinsist.Mockery;
 import com.github.liucijus.jinsist.expectations.UnexpectedInvocation;
 import com.github.liucijus.jinsist.expectations.UnmetExpectations;
-import com.github.liucijus.jinsist.mock.MethodToStubNotFound;
-import com.github.liucijus.jinsist.testtypes.Collaborator;
+import com.github.liucijus.jinsist.integration.testtypes.Collaborator;
 import org.junit.Test;
 
 import static com.googlecode.catchexception.CatchException.verifyException;
 import static org.junit.Assert.assertEquals;
 
-public class StubExpectationsTest {
+public class MockIT {
     private Mockery mockery = new Mockery();
     private Collaborator collaborator = mockery.mock(Collaborator.class);
-
-    @Test
-    public void stubsMethod() {
-        mockery.expect(collaborator).stub(mock -> mock.firstMethod("input")).returns("output");
-
-        assertEquals("output", collaborator.firstMethod("input"));
-    }
 
     @Test
     public void failsUnexpectedInvocation() {
@@ -72,13 +65,5 @@ public class StubExpectationsTest {
         assertEquals("output2", collaborator2.firstMethod("input2"));
 
         mockery.verify();
-    }
-
-    @Test
-    public void failsOnPublicPropertyStubbing() {
-        verifyException(
-                mockery.expect(collaborator).stub(mock -> mock.publicProperty),
-                MethodToStubNotFound.class
-        ).returns("ignored");
     }
 }

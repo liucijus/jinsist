@@ -20,7 +20,7 @@ public class Mock<MockType> {
     }
 
     private MockType instance;
-    private Expectations expectations;
+    private com.github.liucijus.jinsist.expectations.Expectations expectations;
 
     public Mock(Class<MockType> mockClass, Expectations expectations) {
         Delegator<MockType> executor = (instance, method, arguments) -> {

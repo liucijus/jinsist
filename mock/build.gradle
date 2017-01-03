@@ -1,0 +1,7 @@
+dependencies {
+    compile project(':proxy')
+    compile project(':matchers')
+    compile project(':expectations')
+
+    testCompile "junit:junit:4.11"
+}

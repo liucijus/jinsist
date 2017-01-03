@@ -26,4 +26,19 @@ public class Arguments {
     public List<ArgumentMatcher<?>> getArgumentMatchers() {
         return argumentMatchers;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Arguments arguments = (Arguments) o;
+
+        return argumentMatchers.equals(arguments.argumentMatchers);
+    }
+
+    @Override
+    public int hashCode() {
+        return argumentMatchers != null ? argumentMatchers.hashCode() : 0;
+    }
 }
