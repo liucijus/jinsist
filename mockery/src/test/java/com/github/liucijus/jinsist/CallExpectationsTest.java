@@ -2,6 +2,7 @@ package com.github.liucijus.jinsist;
 
 import com.github.liucijus.jinsist.expectations.UnexpectedInvocation;
 import com.github.liucijus.jinsist.expectations.UnmetExpectations;
+import com.github.liucijus.jinsist.mock.MethodToStubNotFound;
 import com.github.liucijus.jinsist.mock.UnableToStubPrimitiveReturnType;
 import com.github.liucijus.jinsist.testtypes.Collaborator;
 import org.junit.Test;
@@ -43,5 +44,11 @@ public class CallExpectationsTest {
                 mockery.expect(collaborator),
                 UnableToStubPrimitiveReturnType.class
         ).call(Collaborator::primitiveMethod);
+    }
+
+    @Test(expected = MethodToStubNotFound.class)
+    public void failsOnMissingMethodToCall() {
+        mockery.expect(collaborator).call(mock -> {
+        });
     }
 }

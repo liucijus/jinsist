@@ -41,7 +41,7 @@ public class Mock<MockType> {
         return new Voids<>(call, this);
     }
 
-    <ReturnType> MockType setupInstanceWithResult(ReturnType result) {
+    <ReturnType> MockType setupInstanceWithResult(ReturnType result, SetupResult setupResult) {
         Delegator<MockType> expectationRecorder = ((setupInstance, method, args) -> {
             verifyReturnTypeNeedsToBeStubbed(result, method);
 
@@ -50,6 +50,7 @@ public class Mock<MockType> {
             );
 
             expectations.recordStub(mockClass, instance, method, arguments, result);
+            setupResult.setSuccess();
             return result;
         });
 
@@ -63,7 +64,7 @@ public class Mock<MockType> {
         }
     }
 
-    MockType setupInstance() {
-        return setupInstanceWithResult(null);
+    MockType setupInstance(SetupResult setupResult) {
+        return setupInstanceWithResult(null, setupResult);
     }
 }

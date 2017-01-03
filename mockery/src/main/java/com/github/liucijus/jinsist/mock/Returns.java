@@ -10,6 +10,8 @@ public class Returns<ReturnType, MockType> {
     }
 
     public void returns(ReturnType output) {
-        call.recordStub(mock.setupInstanceWithResult(output));
+        SetupResult setupResult = new SetupResult();
+        call.recordStub(mock.setupInstanceWithResult(output, setupResult));
+        setupResult.verify();
     }
 }

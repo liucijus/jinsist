@@ -2,12 +2,12 @@ package com.github.liucijus.jinsist;
 
 import com.github.liucijus.jinsist.expectations.UnexpectedInvocation;
 import com.github.liucijus.jinsist.expectations.UnmetExpectations;
+import com.github.liucijus.jinsist.mock.MethodToStubNotFound;
 import com.github.liucijus.jinsist.testtypes.Collaborator;
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.googlecode.catchexception.CatchException.verifyException;
+import static org.junit.Assert.assertEquals;
 
 public class StubExpectationsTest {
     private Mockery mockery = new Mockery();
@@ -17,7 +17,7 @@ public class StubExpectationsTest {
     public void stubsMethod() {
         mockery.expect(collaborator).stub(mock -> mock.firstMethod("input")).returns("output");
 
-        Assert.assertEquals("output", collaborator.firstMethod("input"));
+        assertEquals("output", collaborator.firstMethod("input"));
     }
 
     @Test
@@ -39,8 +39,8 @@ public class StubExpectationsTest {
                 .stub(mock -> mock.secondMethod("first input", "second input"))
                 .returns("second output");
 
-        Assert.assertEquals("first output", collaborator.firstMethod("first input"));
-        Assert.assertEquals("second output", collaborator.secondMethod("first input", "second input"));
+        assertEquals("first output", collaborator.firstMethod("first input"));
+        assertEquals("second output", collaborator.secondMethod("first input", "second input"));
 
         mockery.verify();
     }
@@ -68,19 +68,17 @@ public class StubExpectationsTest {
         mockery.expect(collaborator1).stub(mock -> mock.firstMethod("input1")).returns("output1");
         mockery.expect(collaborator2).stub(mock -> mock.firstMethod("input2")).returns("output2");
 
-        Assert.assertEquals("output1", collaborator1.firstMethod("input1"));
-        Assert.assertEquals("output2", collaborator2.firstMethod("input2"));
+        assertEquals("output1", collaborator1.firstMethod("input1"));
+        assertEquals("output2", collaborator2.firstMethod("input2"));
 
         mockery.verify();
     }
 
     @Test
-    @Ignore("Field stubbing not supported")
-    public void allowsPublicPropertyStubbing() {
-        mockery.expect(collaborator).stub(mock -> mock.publicProperty).returns("stubbed property");
-
-        Assert.assertEquals("stubbed property", collaborator.publicProperty);
-
-        mockery.verify();
+    public void failsOnPublicPropertyStubbing() {
+        verifyException(
+                mockery.expect(collaborator).stub(mock -> mock.publicProperty),
+                MethodToStubNotFound.class
+        ).returns("ignored");
     }
 }
