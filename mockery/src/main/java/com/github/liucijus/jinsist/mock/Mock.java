@@ -1,6 +1,6 @@
 package com.github.liucijus.jinsist.mock;
 
-import com.github.liucijus.jinsist.expectations.Expectations;
+import com.github.liucijus.jinsist.expectations.OrderedExpectations;
 import com.github.liucijus.jinsist.matchers.Arguments;
 import com.github.liucijus.jinsist.matchers.EqualsMatcher;
 import com.github.liucijus.jinsist.proxy.Delegator;
@@ -14,10 +14,20 @@ import static java.util.stream.Collectors.toList;
 public class Mock<MockType> {
 
     private Class<MockType> mockClass;
-    private MockType instance;
-    private Expectations expectations;
 
-    public Mock(Class<MockType> mockClass, MockType instance, Expectations expectations) {
+    public MockType getInstance() {
+        return instance;
+    }
+
+    private MockType instance;
+    private OrderedExpectations expectations;
+
+    public Mock(Class<MockType> mockClass, OrderedExpectations expectations) {
+        Delegator<MockType> executor = (instance, method, arguments) -> {
+            return expectations.execute(mockClass, instance, method, arguments);
+        };
+
+        MockType instance = new Proxy<>(mockClass).instance(executor);
         this.mockClass = mockClass;
         this.instance = instance;
         this.expectations = expectations;

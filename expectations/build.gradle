@@ -2,4 +2,5 @@ dependencies {
     compile project(':matchers')
     compile project(':report')
     testCompile "junit:junit:4.11"
+    testCompile 'eu.codearte.catch-exception:catch-exception:1.4.4'
 }

@@ -43,4 +43,4 @@ public class MockeryIT {
 
         mockery.verify();
     }
- }
+}

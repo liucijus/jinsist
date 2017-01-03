@@ -1,28 +1,22 @@
 package com.github.liucijus.jinsist;
 
-import com.github.liucijus.jinsist.expectations.Expectations;
+import com.github.liucijus.jinsist.expectations.OrderedExpectations;
 import com.github.liucijus.jinsist.mock.Mock;
-import com.github.liucijus.jinsist.proxy.Delegator;
-import com.github.liucijus.jinsist.proxy.Proxy;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Mockery {
     private Map<Class<?>, Mock<?>> mocks = new HashMap<>();
-    private Expectations expectations = new Expectations();
+    private OrderedExpectations expectations = new OrderedExpectations();
 
     public void verify() {
         expectations.verify();
     }
 
     public <MockType> MockType mock(Class<MockType> classToMock) {
-        Delegator<MockType> executor = (instance, method, arguments) -> {
-            return expectations.execute(classToMock, instance, method, arguments);
-        };
-
-        MockType instance = new Proxy<>(classToMock).instance(executor);
-        Mock<MockType> mock = new Mock<>(classToMock, instance, expectations);
+        Mock<MockType> mock = new Mock<>(classToMock, expectations);
+        MockType instance = mock.getInstance();
         mocks.put(instance.getClass(), mock);
         return instance;
     }
