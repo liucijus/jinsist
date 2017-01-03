@@ -1,4 +1,5 @@
 dependencies {
     compile project(':matchers')
+    compile project(':report')
     testCompile "junit:junit:4.11"
 }
