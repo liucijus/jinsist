@@ -56,4 +56,5 @@ public class Invocation<MockType> {
         result = 31 * result + Arrays.hashCode(arguments);
         return result;
     }
+
 }

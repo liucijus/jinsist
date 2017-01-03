@@ -1,6 +1,5 @@
 package com.github.liucijus.jinsist.report;
 
-import com.github.liucijus.jinsist.testtypes.Collaborator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,15 +8,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class FormattedMethodTest {
+    interface TestClass {
+        String aMethod(String param);
+    }
+
     @Test
-    public void test() throws Exception {
-        Class<?> type = Collaborator.class;
-        Method method = type.getMethod("firstMethod", String.class);
+    public void formatsMethodWithArguments() throws Exception {
+        Class<?> type = TestClass.class;
+        Method method = type.getMethod("aMethod", String.class);
         List<?> arguments = Collections.singletonList("param");
 
         FormattedMethod formatted = new FormattedMethod(type, method, arguments);
 
-        String expected = "Collaborator.firstMethod(param)";
+        String expected = "TestClass.aMethod(param)";
 
         Assert.assertEquals(expected, formatted.toString());
     }

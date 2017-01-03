@@ -1,6 +1,7 @@
 dependencies {
     compile project(':proxy')
     compile project(':matchers')
+    compile project(':expectations')
     testCompile "junit:junit:4.11"
     testCompile 'eu.codearte.catch-exception:catch-exception:1.4.4'
 }

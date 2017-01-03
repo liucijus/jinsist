@@ -1,6 +1,5 @@
 package com.github.liucijus.jinsist.expectations;
 
-import com.github.liucijus.jinsist.UnmetExpectations;
 import com.github.liucijus.jinsist.matchers.Arguments;
 
 import java.lang.reflect.Method;

@@ -1,7 +1,7 @@
 package com.github.liucijus.jinsist.integration;
 
 import com.github.liucijus.jinsist.Mockery;
-import com.github.liucijus.jinsist.UnmetExpectations;
+import com.github.liucijus.jinsist.expectations.UnmetExpectations;
 import com.github.liucijus.jinsist.integration.testtypes.Collaborator;
 import org.junit.Test;
 

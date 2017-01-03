@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':matchers')
+    testCompile "junit:junit:4.11"
+}
