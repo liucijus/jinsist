@@ -9,6 +9,7 @@ Currently only **ordered expectation verification** is supported. It means mocke
 
 ```java
   Mockery mockery = new Mockery();
+  Collaborator collaborator = mockery.mock(Collaborator.class);
   
   // side effect verification
   mockery.expect(collaborator).call(mock -> mock.firstMethod("input"));
