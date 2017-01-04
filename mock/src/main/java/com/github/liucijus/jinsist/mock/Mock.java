@@ -1,15 +1,10 @@
 package com.github.liucijus.jinsist.mock;
 
 import com.github.liucijus.jinsist.expectations.Expectations;
-import com.github.liucijus.jinsist.matchers.Arguments;
-import com.github.liucijus.jinsist.matchers.EqualsMatcher;
+import com.github.liucijus.jinsist.mock.delegators.MockExecutor;
+import com.github.liucijus.jinsist.mock.delegators.SetupRecorder;
 import com.github.liucijus.jinsist.proxy.Delegator;
 import com.github.liucijus.jinsist.proxy.Proxy;
-
-import java.lang.reflect.Method;
-
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
 
 public class Mock<MockType> {
 
@@ -20,14 +15,10 @@ public class Mock<MockType> {
     }
 
     private MockType instance;
-    private com.github.liucijus.jinsist.expectations.Expectations expectations;
+    private Expectations expectations;
 
     public Mock(Class<MockType> mockClass, Expectations expectations) {
-        Delegator<MockType> executor = (instance, method, arguments) -> expectations.execute(
-                mockClass, instance, method, arguments
-        );
-
-        MockType instance = new Proxy<>(mockClass).instance(executor);
+        MockType instance = new Proxy<>(mockClass).instance(new MockExecutor<>(expectations, mockClass));
         this.mockClass = mockClass;
         this.instance = instance;
         this.expectations = expectations;
@@ -42,26 +33,9 @@ public class Mock<MockType> {
     }
 
     <ReturnType> MockType setupInstanceWithResult(ReturnType result, SetupResult setupResult) {
-        Delegator<MockType> expectationRecorder = ((setupInstance, method, args) -> {
-            verifyReturnTypeNeedsToBeStubbed(result, method);
+        Delegator<MockType> recorder = new SetupRecorder<>(expectations, mockClass, instance, result, setupResult);
 
-            Arguments arguments = new Arguments(
-                    stream(args).map(EqualsMatcher::new).collect(toList())
-            );
-
-            expectations.recordStub(mockClass, instance, method, arguments, result);
-            setupResult.setSuccess();
-            return result;
-        });
-
-        return new Proxy<>(mockClass).instance(expectationRecorder);
-    }
-
-    private <ReturnType> void verifyReturnTypeNeedsToBeStubbed(ReturnType result, Method method) {
-        Class<?> returnType = method.getReturnType();
-        if (!returnType.equals(Void.TYPE) && returnType.isPrimitive() && result == null) {
-            throw new UnableToStubPrimitiveReturnType();
-        }
+        return new Proxy<>(mockClass).instance(recorder);
     }
 
     MockType setupInstance(SetupResult setupResult) {

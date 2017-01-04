@@ -2,7 +2,7 @@ package com.github.liucijus.mock;
 
 import com.github.liucijus.jinsist.mock.MethodToStubNotFound;
 import com.github.liucijus.jinsist.mock.Mock;
-import com.github.liucijus.jinsist.mock.UnableToStubPrimitiveReturnType;
+import com.github.liucijus.jinsist.mock.delegators.UnableToStubPrimitiveReturnType;
 import com.github.liucijus.mock.testtypes.Collaborator;
 import com.github.liucijus.mock.testtypes.TestFactories;
 import org.junit.Test;

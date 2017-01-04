@@ -1,9 +1,9 @@
 package com.github.liucijus.jinsist.mock;
 
-class SetupResult {
+public class SetupResult {
     private boolean wasRecorded = false;
 
-    void setSuccess() {
+    public void setSuccess() {
         this.wasRecorded = true;
     }
 
