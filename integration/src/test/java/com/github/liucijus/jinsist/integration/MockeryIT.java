@@ -37,6 +37,7 @@ public class MockeryIT {
         Mockery mockery = new Mockery();
 
         Collaborator collaborator = mockery.mock(Collaborator.class);
+
         mockery.expect(collaborator).stub(mock -> mock.firstMethod("some input")).returns("some output");
 
         collaborator.firstMethod("some input");

@@ -12,7 +12,7 @@ import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 
 public class ReportExpectationsTest {
-    private Expectations orderExpectations = new OrderedExpectations();
+    private Expectations orderedExpectations = new OrderedExpectations();
     private TestCollaborator instance = new TestCollaborator();
     private Class<TestCollaborator> mockClass = TestCollaborator.class;
     private Method method1 = mockClass.getMethod("firstMethod");
@@ -25,14 +25,14 @@ public class ReportExpectationsTest {
 
     @Test
     public void succeedsVerificationWhenHasNoExpectations() {
-        ReportExpectations expectations = new ReportExpectations(orderExpectations);
+        ReportExpectations expectations = new ReportExpectations(orderedExpectations);
 
         expectations.verify();
     }
 
     @Test
     public void delegateToUnderlyingImplementation() {
-        ReportExpectations expectations = new ReportExpectations(orderExpectations);
+        ReportExpectations expectations = new ReportExpectations(orderedExpectations);
 
         expectations.recordStub(mockClass, instance, method1, noArgumentsMatchers, null);
         expectations.recordStub(mockClass, instance, method2, noArgumentsMatchers, null);
@@ -56,7 +56,7 @@ public class ReportExpectationsTest {
 
     @Test
     public void reportUnexpectedInvocation() {
-        ReportExpectations expectations = new ReportExpectations(orderExpectations);
+        ReportExpectations expectations = new ReportExpectations(orderedExpectations);
 
         expectations.recordStub(mockClass, instance, method1, noArgumentsMatchers, null);
 
@@ -71,8 +71,23 @@ public class ReportExpectationsTest {
         verifyException(expectations, UnexpectedInvocation.class).execute(mockClass, instance, method2, noArguments);
         assertEquals(expectedReport, caughtException().getMessage());
 
-
         verifyException(expectations, UnmetExpectations.class).verify();
+        assertEquals(expectedReport, caughtException().getMessage());
+    }
+
+    @Test
+    public void reportsUnexpectedInvocationOnEmptyExpectations() {
+        ReportExpectations expectations = new ReportExpectations(orderedExpectations);
+
+        String expectedReport = "" +
+                "Expected: Nothing!\n" +
+                "Actual: TestCollaborator.firstMethod()\n" +
+                "What happened before:\n" +
+                "  Nothing!\n" +
+                "Unmet Expectations:\n" +
+                "  Nothing!\n";
+
+        verifyException(expectations, UnexpectedInvocation.class).execute(mockClass, instance, method1, noArguments);
         assertEquals(expectedReport, caughtException().getMessage());
     }
 }

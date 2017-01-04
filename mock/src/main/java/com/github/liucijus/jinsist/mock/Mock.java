@@ -23,9 +23,9 @@ public class Mock<MockType> {
     private com.github.liucijus.jinsist.expectations.Expectations expectations;
 
     public Mock(Class<MockType> mockClass, Expectations expectations) {
-        Delegator<MockType> executor = (instance, method, arguments) -> {
-            return expectations.execute(mockClass, instance, method, arguments);
-        };
+        Delegator<MockType> executor = (instance, method, arguments) -> expectations.execute(
+                mockClass, instance, method, arguments
+        );
 
         MockType instance = new Proxy<>(mockClass).instance(executor);
         this.mockClass = mockClass;

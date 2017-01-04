@@ -35,7 +35,6 @@ public class ReportExpectations implements Expectations {
         ExecuteEvent<MockType> executeEvent = new ExecuteEvent<>(classToMock, method, arguments);
         try {
             Object result = expectations.execute(classToMock, instance, method, arguments);
-            // todo handle index out of bound
             expected.remove(0);
             log.add(executeEvent);
             return result;
@@ -57,7 +56,7 @@ public class ReportExpectations implements Expectations {
     }
 
     private FormattedReport prepareReport() {
-        ReportEvent firstOrNothing = expected.stream().findFirst().orElse(unexpectedEvent);
+        ReportEvent firstOrNothing = expected.stream().findFirst().orElse(new NothingEvent());
         return new FormattedReport(
                 firstOrNothing,
                 unexpectedEvent,

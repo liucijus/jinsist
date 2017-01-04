@@ -29,9 +29,11 @@ public class OrderedExpectations implements Expectations {
             Method method,
             Object[] arguments
     ) {
-        // todo handle unexpected call when expectations are empty
-        Expectation expectation = expectations.remove(0);
         Invocation<MockType> invocation = new Invocation<>(classToMock, instance, method, arguments);
+        if (expectations.isEmpty()) {
+            throw new UnexpectedInvocation(invocation);
+        }
+        Expectation expectation = expectations.remove(0);
 
         verifyExpectationMatchesInvocation(expectation, invocation);
 
