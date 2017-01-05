@@ -21,6 +21,7 @@ public class MockStubTest extends TestFactories {
     @Test(expected = MethodToStubNotFound.class)
     public void failsOnPublicPropertyStubbing() {
         Mock<Collaborator> collaboratorMock = new Mock<>(Collaborator.class, expectations);
+
         collaboratorMock.stub(mock -> mock.publicProperty).returns("ignored");
     }
 
