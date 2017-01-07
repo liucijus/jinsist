@@ -1,7 +1,7 @@
 package jinsist.expectations;
 
 public class UnexpectedInvocation extends RuntimeException {
-    public UnexpectedInvocation(Invocation invocation) {
+    UnexpectedInvocation(Invocation invocation) {
         super("Nothing expected, but was " + invocation);
     }
 

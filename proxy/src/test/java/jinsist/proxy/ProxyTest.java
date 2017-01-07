@@ -8,30 +8,32 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ProxyTest {
-    private Delegator nullDelegator = (instance, method, arguments) -> null;
+    private <T> Delegator<T> aNullDelegator() {
+        return (instance, method, arguments) -> null;
+    }
 
     @Test
     public void createsClassProxy() {
-        ClassType classProxy = new Proxy<>(ClassType.class).instance(nullDelegator);
+        ClassType classProxy = new Proxy<>(ClassType.class).instance(aNullDelegator());
 
         assertIsSubclass(ClassType.class, classProxy);
     }
 
     @Test
     public void createsInterfaceProxy() {
-        InterfaceType interfaceProxy = new Proxy<>(InterfaceType.class).instance(nullDelegator);
+        InterfaceType interfaceProxy = new Proxy<>(InterfaceType.class).instance(aNullDelegator());
 
         assertHasInterface(InterfaceType.class, interfaceProxy);
     }
 
     @Test(expected = ProxyInstanceCreationFailed.class)
     public void failsCreatingNonPublicInterface() {
-        new Proxy<>(InnerInterface.class).instance(nullDelegator);
+        new Proxy<>(InnerInterface.class).instance(aNullDelegator());
     }
 
     @Test
     public void delegatesMethodCall() {
-        Delegator firstArgumentDelegator = (instance, method, arguments) -> arguments[0];
+        Delegator<InterfaceType> firstArgumentDelegator = (instance, method, arguments) -> arguments[0];
 
         InterfaceType interfaceProxy = new Proxy<>(InterfaceType.class).instance(firstArgumentDelegator);
 

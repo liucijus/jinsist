@@ -2,15 +2,15 @@ package jinsist.proxy;
 
 import java.lang.reflect.Method;
 
-class InstanceDelegator {
-    private Object instance;
-    private Delegator delegator;
+class InstanceDelegator<T> {
+    private T instance;
+    private Delegator<T> delegator;
 
-    InstanceDelegator(Delegator delegator) {
+    InstanceDelegator(Delegator<T> delegator) {
         this.delegator = delegator;
     }
 
-    void setInstance(Object instance) {
+    void setInstance(T instance) {
         this.instance = instance;
     }
 

@@ -7,10 +7,10 @@ import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ProxyDelegate {
-    private InstanceDelegator delegator;
+public class ProxyDelegate<T> {
+    private InstanceDelegator<T> delegator;
 
-    ProxyDelegate(InstanceDelegator delegator) {
+    ProxyDelegate(InstanceDelegator<T> delegator) {
         this.delegator = delegator;
     }
 

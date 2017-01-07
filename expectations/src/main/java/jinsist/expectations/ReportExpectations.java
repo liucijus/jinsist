@@ -2,18 +2,19 @@ package jinsist.expectations;
 
 import jinsist.matchers.Arguments;
 import jinsist.report.FormattedReport;
-import jinsist.report.NothingEvent;
 import jinsist.report.ReportEvent;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jinsist.report.NothingEvent.nothing;
+
 public class ReportExpectations implements Expectations {
     private Expectations expectations;
     private List<ReportEvent> log = new ArrayList<>();
     private List<ReportEvent> expected = new ArrayList<>();
-    private ReportEvent unexpectedEvent = new NothingEvent();
+    private ReportEvent unexpectedEvent = nothing();
 
     public ReportExpectations(Expectations expectations) {
         this.expectations = expectations;
@@ -56,7 +57,7 @@ public class ReportExpectations implements Expectations {
     }
 
     private FormattedReport prepareReport() {
-        ReportEvent firstOrNothing = expected.stream().findFirst().orElse(new NothingEvent());
+        ReportEvent firstOrNothing = expected.stream().findFirst().orElse(nothing());
         return new FormattedReport(
                 firstOrNothing,
                 unexpectedEvent,

@@ -8,8 +8,8 @@ import net.bytebuddy.matcher.ElementMatchers;
 public class Proxy<T> {
     private Class<T> type;
 
-    private Class<? extends T> makeProxyFor(Class<T> classToMock, InstanceDelegator delegator) {
-        ProxyDelegate delegate = new ProxyDelegate(delegator);
+    private Class<? extends T> makeProxyFor(Class<T> classToMock, InstanceDelegator<T> delegator) {
+        ProxyDelegate<T> delegate = new ProxyDelegate<>(delegator);
         return new ByteBuddy()
                 .subclass(classToMock)
                 .method(ElementMatchers.any())
@@ -26,7 +26,7 @@ public class Proxy<T> {
 
     public T instance(Delegator<T> delegator) {
         try {
-            InstanceDelegator instanceDelegator = new InstanceDelegator(delegator);
+            InstanceDelegator<T> instanceDelegator = new InstanceDelegator<>(delegator);
             T instance = makeProxyFor(type, instanceDelegator).newInstance();
             instanceDelegator.setInstance(instance);
             return instance;

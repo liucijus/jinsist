@@ -65,7 +65,7 @@ public class FormattedReportTest {
     class TestReportEvent implements ReportEvent {
         private String text;
 
-        public TestReportEvent(String text) {
+        TestReportEvent(String text) {
             this.text = text;
         }
 

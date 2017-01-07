@@ -1,7 +1,9 @@
 package jinsist.report;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.joining;
+import static jinsist.report.NothingEvent.nothing;
 
 public class FormattedReport {
     private static final String INDENTATION = "  ";
@@ -31,9 +33,13 @@ public class FormattedReport {
                 formatEventList(unmetHistory) + "\n";
     }
 
+    private String indented(ReportEvent event) {
+        return INDENTATION + event.toString();
+    }
+
     private String formatEventList(List<ReportEvent> history) {
         return history.isEmpty()
-                ? INDENTATION + new NothingEvent().toString()
-                : history.stream().map(event -> INDENTATION + event.toString()).collect(Collectors.joining("\n"));
+                ? indented(nothing())
+                : history.stream().map(this::indented).collect(joining("\n"));
     }
 }

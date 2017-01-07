@@ -10,7 +10,6 @@ public class FormattedMethod {
     private final List<?> arguments;
 
     public FormattedMethod(Class<?> type, Method method, List<?> arguments) {
-
         this.type = type;
         this.method = method;
         this.arguments = arguments;

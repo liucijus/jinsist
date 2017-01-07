@@ -27,6 +27,7 @@ public class Mockery {
         return findMock(mockInstance);
     }
 
+    @SuppressWarnings("unchecked")
     private <M> Mock<M> findMock(M mockInstance) {
         return (Mock<M>) mocks.get(mockInstance.getClass());
     }

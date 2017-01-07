@@ -4,7 +4,8 @@ import jinsist.report.FormattedMethod;
 import jinsist.report.ReportEvent;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
+
+import static java.util.Arrays.asList;
 
 public class ExecuteEvent<MockType> implements ReportEvent {
     private final Class<MockType> mockClass;
@@ -19,6 +20,6 @@ public class ExecuteEvent<MockType> implements ReportEvent {
 
     @Override
     public String toString() {
-        return new FormattedMethod(mockClass, method, Arrays.asList(arguments)).toString();
+        return new FormattedMethod(mockClass, method, asList(arguments)).toString();
     }
 }
