@@ -24,11 +24,11 @@ public class Mock<MockType> {
         this.expectations = expectations;
     }
 
-    public <ReturnType> Returns<ReturnType, MockType> stub(StubCall<ReturnType, MockType> call) {
+    public <ReturnType> Returns<ReturnType, MockType> query(StubCall<ReturnType, MockType> call) {
         return new Returns<>(call, this);
     }
 
-    public Voids<MockType> call(ExpectationCall<MockType> call) {
+    Voids<MockType> command(ExpectationCall<MockType> call) {
         return new Voids<>(call, this);
     }
 

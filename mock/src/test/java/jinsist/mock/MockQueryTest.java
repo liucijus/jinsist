@@ -6,12 +6,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MockStubTest extends TestFactories {
+public class MockQueryTest extends TestFactories {
     @Test
     public void stubsMethod() {
         Mock<Collaborator> collaboratorMock = new Mock<>(Collaborator.class, expectations);
 
-        collaboratorMock.stub(mock -> mock.firstMethod("input")).returns("output");
+        collaboratorMock.query(mock -> mock.firstMethod("input")).returns("output");
 
         assertEquals(stub(Collaborator.class, firstMethod, argumentsOf("input"), "output"), registry.get(0));
     }
@@ -20,9 +20,9 @@ public class MockStubTest extends TestFactories {
     public void failsOnPublicPropertyStubbing() {
         Mock<Collaborator> collaboratorMock = new Mock<>(Collaborator.class, expectations);
 
-        collaboratorMock.stub(mock -> mock.publicProperty).returns("ignored");
+        collaboratorMock.query(mock -> mock.publicProperty).returns("ignored");
     }
 
-    public MockStubTest() throws NoSuchMethodException {
+    public MockQueryTest() throws NoSuchMethodException {
     }
 }

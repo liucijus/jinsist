@@ -12,11 +12,11 @@ Currently only **ordered expectation verification** is supported. It means mocke
   Collaborator collaborator = mockery.mock(Collaborator.class);
   
   // side effect verification
-  mockery.expect(collaborator).call(mock -> mock.firstMethod("input"));
+  mockery.expect(collaborator).command(mock -> mock.firstMethod("input"));
   collaborator.firstMethod("input");
   
   // stub verification
-  mockery.expect(collaborator).stub(mock -> mock.firstMethod("input")).returns("output");
+  mockery.expect(collaborator).query(mock -> mock.firstMethod("input")).returns("output");
   Assert.assertEquals("output", collaborator.firstMethod("input"));
   
   mockery.verify(); // verify is optional

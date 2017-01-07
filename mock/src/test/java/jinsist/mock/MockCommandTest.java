@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MockCallTest extends TestFactories {
+public class MockCommandTest extends TestFactories {
     @Test
     public void mocksMethodWithVoidReturnType() {
         Mock<Collaborator> collaboratorMock = new Mock<>(Collaborator.class, expectations);
 
-        collaboratorMock.call(Collaborator::voidMethod);
+        collaboratorMock.command(Collaborator::voidMethod);
 
         assertEquals(stub(Collaborator.class, voidMethod), registry.get(0));
     }
@@ -21,7 +21,7 @@ public class MockCallTest extends TestFactories {
     public void mocksMethodWithReturnType() {
         Mock<Collaborator> collaboratorMock = new Mock<>(Collaborator.class, expectations);
 
-        collaboratorMock.call(mock -> mock.firstMethod(input));
+        collaboratorMock.command(mock -> mock.firstMethod(input));
 
         assertEquals(stub(Collaborator.class, firstMethod, argumentsOf(input)), registry.get(0));
     }
@@ -30,16 +30,16 @@ public class MockCallTest extends TestFactories {
     public void failsOnPrimitiveReturnType() {
         Mock<Collaborator> collaboratorMock = new Mock<>(Collaborator.class, expectations);
 
-        collaboratorMock.call(Collaborator::primitiveMethod);
+        collaboratorMock.command(Collaborator::primitiveMethod);
     }
 
     @Test(expected = MethodToStubNotFound.class)
     public void failsOnMissingMethodToCall() {
         Mock<Collaborator> collaboratorMock = new Mock<>(Collaborator.class, expectations);
-        collaboratorMock.call(mock -> {
+        collaboratorMock.command(mock -> {
         });
     }
 
-    public MockCallTest() throws NoSuchMethodException {
+    public MockCommandTest() throws NoSuchMethodException {
     }
 }

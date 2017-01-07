@@ -15,7 +15,7 @@ public class MockIT {
 
     @Test
     public void failsUnexpectedInvocation() {
-        mockery.expect(collaborator).stub(mock -> mock.firstMethod("input")).returns("output");
+        mockery.expect(collaborator).query(mock -> mock.firstMethod("input")).returns("output");
 
         verifyException(collaborator, UnexpectedInvocation.class).firstMethod("unexpected input");
 
@@ -25,11 +25,11 @@ public class MockIT {
     @Test()
     public void stubsMultipleMethods() {
         mockery.expect(collaborator)
-                .stub(mock -> mock.firstMethod("first input"))
+                .query(mock -> mock.firstMethod("first input"))
                 .returns("first output");
 
         mockery.expect(collaborator)
-                .stub(mock -> mock.secondMethod("first input", "second input"))
+                .query(mock -> mock.secondMethod("first input", "second input"))
                 .returns("second output");
 
         assertEquals("first output", collaborator.firstMethod("first input"));
@@ -41,11 +41,11 @@ public class MockIT {
     @Test
     public void failsForOutOfOrderInvocations() {
         mockery.expect(collaborator)
-                .stub(mock -> mock.firstMethod("first input"))
+                .query(mock -> mock.firstMethod("first input"))
                 .returns("first output");
 
         mockery.expect(collaborator)
-                .stub(mock -> mock.secondMethod("first input", "second input"))
+                .query(mock -> mock.secondMethod("first input", "second input"))
                 .returns("second output");
 
         verifyException(collaborator, UnexpectedInvocation.class).secondMethod("first input", "second input");
@@ -58,8 +58,8 @@ public class MockIT {
         Collaborator collaborator1 = mockery.mock(Collaborator.class);
         Collaborator collaborator2 = mockery.mock(Collaborator.class);
 
-        mockery.expect(collaborator1).stub(mock -> mock.firstMethod("input1")).returns("output1");
-        mockery.expect(collaborator2).stub(mock -> mock.firstMethod("input2")).returns("output2");
+        mockery.expect(collaborator1).query(mock -> mock.firstMethod("input1")).returns("output1");
+        mockery.expect(collaborator2).query(mock -> mock.firstMethod("input2")).returns("output2");
 
         assertEquals("output1", collaborator1.firstMethod("input1"));
         assertEquals("output2", collaborator2.firstMethod("input2"));
