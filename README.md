@@ -24,10 +24,10 @@ Currently only **ordered expectation verification** is supported. It means mocke
 ```
 
 ### ToDo
-- ~~Implement history based reporting~~
-- Add JUnit integration to reduce boilerplate
-- Add static mockery creation to look more like other frameworks
-- Refactor tests to use mocks
-- Support parallel execution
-- Add more types of verification: unordered, mixed
-- Add possibility to match argument
+- [x] ~~Implement history based reporting~~
+- [ ] Add JUnit integration to reduce boilerplate
+- [ ] Add static mockery creation to look more like other frameworks
+- [ ] Refactor tests to use mocks
+- [ ] Support parallel execution
+- [ ] Add more types of verification: unordered, mixed
+- [ ] Add possibility to match argument
