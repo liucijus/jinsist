@@ -36,14 +36,22 @@ public class ReportExpectations implements Expectations {
         ExecuteEvent<MockType> executeEvent = new ExecuteEvent<>(classToMock, method, arguments);
         try {
             Object result = expectations.execute(classToMock, instance, method, arguments);
-            expected.remove(0);
-            log.add(executeEvent);
+            updateLog(executeEvent);
             return result;
         } catch (UnexpectedInvocation e) {
-            unexpectedEvent = executeEvent;
-            FormattedReport report = prepareReport();
-            throw new UnexpectedInvocation(report.format(), e);
+            return throwUnexpectedInvocation(executeEvent, e);
         }
+    }
+
+    private <MockType> void updateLog(ExecuteEvent<MockType> executeEvent) {
+        expected.remove(0);
+        log.add(executeEvent);
+    }
+
+    private <MockType> Object throwUnexpectedInvocation(ExecuteEvent<MockType> executeEvent, UnexpectedInvocation e) {
+        unexpectedEvent = executeEvent;
+        FormattedReport report = prepareReport();
+        throw new UnexpectedInvocation(report.format(), e);
     }
 
     @Override
