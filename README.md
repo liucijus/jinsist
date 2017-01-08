@@ -1,4 +1,4 @@
-# JInsist JVM mocking library
+# JInsist JVM mocking library [![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/liucijus/jinsist)
 
 Motivation for this code: it was done as a weekend kata out of curiosity and frustration why most of the mocking
  libraries are so complicated and how hard it would be to do it **right**. It does not mean I did it right.
