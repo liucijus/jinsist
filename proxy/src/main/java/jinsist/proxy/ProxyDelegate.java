@@ -1,22 +1,23 @@
 package jinsist.proxy;
 
-import net.bytebuddy.implementation.bind.annotation.AllArguments;
-import net.bytebuddy.implementation.bind.annotation.Origin;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ProxyDelegate<T> {
-    private InstanceDelegator<T> delegator;
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import net.bytebuddy.implementation.bind.annotation.Origin;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.This;
 
-    ProxyDelegate(InstanceDelegator<T> delegator) {
+public class ProxyDelegate<T> {
+    private final Delegator<T> delegator;
+
+    ProxyDelegate(Delegator<T> delegator) {
         this.delegator = delegator;
     }
 
     @RuntimeType
-    public Object intercept(@AllArguments Object[] allArguments, @Origin Method method)
+    public Object intercept(@AllArguments Object[] allArguments, @Origin Method method, @This Object instance)
             throws InvocationTargetException, IllegalAccessException {
-        return delegator.handle(method, allArguments);
+        return delegator.handle((T) instance, method, allArguments);
     }
 }
